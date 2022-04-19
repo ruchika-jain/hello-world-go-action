@@ -1,7 +1,15 @@
-FROM golang:1.17-alpine AS builder
-RUN mkdir /app
-ADD . /app
+
+
+FROM golang:alpine AS base
+RUN apk add git
 WORKDIR /app
-RUN go mod download
-RUN go build -o main . 
-CMD ["/app/main"]
+COPY . .
+
+RUN go build -o ./out .
+
+FROM alpine AS final
+
+WORKDIR /app
+COPY --from=base /app/out .
+
+CMD [ "./out" ]
