@@ -1,16 +1,32 @@
-name: 'release'
+name: 'publish-action'
 on: # rebuild any PRs and main branch changes
-#   push:
-#   workflow_dispatch:
   release:
+    types: [created]
 
 jobs:
-  test: # make sure the action works on a clean machine without building
+  package-and-publish: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Running action
-        uses: actions-on-packages/package-action@main
-#         uses: actions-on-packages/package-action@test-action
+      - name: Checking out!
+        uses: actions/checkout@v3
+       
+#       - name: Use Node.js
+#         uses: actions/setup-node@v3
 #         with:
-#           path: 'dist'
+#           node-version: '12.x'
+
+#       - run: npm install
+#       - run: npm run build --if-present
+
+#       Job for Minify-JS
+#       - name: Minify-JS Action
+#         uses: jossydevers/minify-js@v1.0.0
+#         with:
+#           directory: 'src/component.js' # (OPTIONAL)
+#           output: 'minify/src/' # (OPTIONAL)
+        
+      - name: Publish action 
+        uses: actions-on-packages/package-action@add-release-workflow
+#        with: 
+#            path: 'dist/'
+        
